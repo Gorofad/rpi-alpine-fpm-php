@@ -11,48 +11,40 @@ ENV MAX_UPLOAD          1G
 ENV PHP_MAX_FILE_UPLOAD 200
 ENV PHP_MAX_POST        1G
 
-### test
-RUN apk update && \
-	apk upgrade && \
-	apk add bash && \
-	rm -rf /var/cache/apk/*
-
-CMD ["/bin/bash"]
-
-# Let's roll
+# install PHP
 RUN	apk update && \
 	apk upgrade && \
-	apk add --update tzdata && \
+	apk add --update tzdata bash && \
 	cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && \
 	echo "${TIMEZONE}" > /etc/timezone && \
 	apk add --update \
 	--repository http://dl-cdn.alpinelinux.org/alpine/edge/main \
 	--repository http://dl-cdn.alpinelinux.org/alpine/edge/community \
-		php7-mcrypt \
-		php7-soap \
-		php7-openssl \
-		php7-gmp \
-		php7-pdo_odbc \
-		php7-json \
-		php7-dom \
-		php7-pdo \
-		php7-zip \
+#		php7-mcrypt \
+#		php7-soap \
+#		php7-openssl \
+#		php7-gmp \
+#		php7-pdo_odbc \
+#		php7-json \
+#		php7-dom \
+#		php7-pdo \
+#		php7-zip \
 		php7-mysqli \
-		php7-sqlite3 \
+#		php7-sqlite3 \
 		php7-pdo_pgsql \
-		php7-bcmath \
-		php7-gd \
-		php7-odbc \
-		php7-pdo_mysql \
-		php7-pdo_sqlite \
-		php7-gettext \
-		php7-xmlreader \
-		php7-xmlrpc \
-		php7-bz2 \
-		php7-iconv \
-		php7-pdo_dblib \
-		php7-curl \
-		php7-ctype \
+#		php7-bcmath \
+#		php7-gd \
+#		php7-odbc \
+#		php7-pdo_mysql \
+#		php7-pdo_sqlite \
+#		php7-gettext \
+#		php7-xmlreader \
+#		php7-xmlrpc \
+#		php7-bz2 \
+#		php7-iconv \
+#		php7-pdo_dblib \
+#		php7-curl \
+#		php7-ctype \
 		php7-fpm && \
     
 	# Set environments
@@ -82,3 +74,4 @@ EXPOSE 9000
 
 # Entry point
 ENTRYPOINT ["/usr/sbin/php-fpm7"]
+#ENTRYPOINT ["/bin/bash"]
