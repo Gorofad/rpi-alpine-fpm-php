@@ -1,5 +1,7 @@
-FROM resin/raspberry-pi-alpine:3.6
-#FROM hypriot/rpi-alpine-scratch:latest
+FROM hypriot/rpi-alpine:3.6
+
+RUN apk update \
+  && apk upgrade
 
 # persistent / runtime deps
 ENV PHPIZE_DEPS \
@@ -71,15 +73,15 @@ RUN set -xe; \
 		echo "$PHP_MD5 *php.tar.xz" | md5sum -c -; \
 	fi; \
 	\
-#	if [ -n "$PHP_ASC_URL" ]; then \
-#		wget -O php.tar.xz.asc "$PHP_ASC_URL"; \
-#		export GNUPGHOME="$(mktemp -d)"; \
-#		for key in $GPG_KEYS; do \
-#			gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
-#		done; \
-#		gpg --batch --verify php.tar.xz.asc php.tar.xz; \
-#		rm -rf "$GNUPGHOME"; \
-#	fi; \
+	if [ -n "$PHP_ASC_URL" ]; then \
+		wget -O php.tar.xz.asc "$PHP_ASC_URL"; \
+		export GNUPGHOME="$(mktemp -d)"; \
+		for key in $GPG_KEYS; do \
+			gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
+		done; \
+		gpg --batch --verify php.tar.xz.asc php.tar.xz; \
+		rm -rf "$GNUPGHOME"; \
+	fi; \
 	\
 	apk del .fetch-deps
 
